@@ -6,12 +6,12 @@ const HomePage: React.FC = () => {
     return (
         <>
             <Head>
-                <title>Next Shop</title>
+                <title>The shop</title>
             </Head>
             <main className="px-6 py-4">
                 <Title>Next Shop</Title>
                 <p>
-                    [TODO: add product list]
+                    [TODO: add products list]
                 </p>
             </main>
         </>
