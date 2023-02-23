@@ -6,8 +6,17 @@ export interface Product {
     createdAt?: string;
 }
 
+function stripProduct(product: Product) {
+    return {
+        id: product.id,
+        title: product.title,
+    }
+}
+
 
 export async function getProducts(): Promise<Product[]> {
     const response = await fetch('http://localhost:1337/products');
-    return await response.json();
+    const products = await response.json();
+
+    return products.map(stripProduct);
 }
