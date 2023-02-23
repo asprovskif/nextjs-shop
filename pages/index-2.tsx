@@ -1,9 +1,15 @@
+// Option 2: fetch products on the client side (in useEffect)
 import Head from 'next/head';
 import React from 'react';
 import Title from "../components/Title";
-import {Product} from '../lib/products';
 
-
+interface Product {
+    id: number;
+    title: string;
+    description?: string;
+    price?: number;
+    createdAt?: string;
+}
 
 const products: Product[] = [{id: 1, title: 'First product'}, {id: 2, title: 'Second product'}];
 
