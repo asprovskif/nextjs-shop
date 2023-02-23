@@ -1,4 +1,4 @@
-// Option 1: fetch products on the server side (in getStaticProps)
+// Option 1b: fetch products on the server side (in getStaticProps) but with Incremental Static Regeneration(ISR)
 import Head from 'next/head';
 import React from 'react';
 import Title from "../components/Title";
@@ -15,7 +15,8 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
     return {
         props: {
             products
-        }
+        },
+        revalidate: 30 // seconds
     }
 }
 
