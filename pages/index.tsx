@@ -1,13 +1,25 @@
 import Head from 'next/head';
 import React from 'react';
 import Title from "../components/Title";
-import {Product} from '../lib/products';
+import {getProducts, Product} from '../lib/products';
+import {GetStaticProps} from 'next';
 
+interface HomePageProps {
+    products: Product[];
+}
 
+export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
+    console.log('[getStaticProps] render');
+    const products = await getProducts();
+    return {
+        props: {
+            products
+        },
+        revalidate: 5 * 60 // seconds
+    }
+}
 
-const products: Product[] = [{id: 1, title: 'First product'}, {id: 2, title: 'Second product'}];
-
-const HomePage: React.FC = () => {
+const HomePage: React.FC<HomePageProps> = ({products}) => {
     console.log('[HomePage] render', products);
     return (
         <>
@@ -19,7 +31,7 @@ const HomePage: React.FC = () => {
                 <ul>
                     {products.map(product => (
                         <li key={product.id}> {product.title} </li>
-                        ))}
+                    ))}
                 </ul>
             </main>
         </>
