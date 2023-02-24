@@ -1,14 +1,18 @@
-// Option 2: fetch products on the client side (in useEffect)
+// Option 2: fetch products on the client side (in useEffect) directly from an internal API
 import Head from 'next/head';
 import React, {useEffect, useState} from 'react';
 import Title from "../components/Title";
-import {getProducts, Product} from '../lib/products';
+import {Product} from '../lib/products';
 
 const HomePage: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
-        getProducts().then(setProducts)
+        (async () => {
+            const response = await fetch('/api/products');
+            const products = await response.json();
+            setProducts(products);
+        })();
     }, []);
     console.log('[HomePage] render', products);
     return (
@@ -21,7 +25,7 @@ const HomePage: React.FC = () => {
                 <ul>
                     {products.map(product => (
                         <li key={product.id}> {product.title} </li>
-                        ))}
+                    ))}
                 </ul>
             </main>
         </>
