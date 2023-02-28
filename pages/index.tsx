@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
+import Link from 'next/link';
 import Title from "../components/Title";
 import {getProducts, Product} from '../lib/products';
 import {GetStaticProps} from 'next';
@@ -30,7 +31,11 @@ const HomePage: React.FC<HomePageProps> = ({products}) => {
                 <Title>Next Shop</Title>
                 <ul>
                     {products.map(product => (
-                        <li key={product.id}> {product.title} </li>
+                        <li key={product.id}>
+                            <Link href={`/products/${product.id}`}>
+                                {product.title}
+                            </Link>
+                        </li>
                     ))}
                 </ul>
             </main>
