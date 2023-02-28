@@ -28,7 +28,6 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
     const product = await getProduct(params.id);
     return {
         props: {product},
-        revalidate: 5 * 60, // seconds
     }
 }
 
