@@ -9,11 +9,11 @@ interface ProductPageProps {
     product: Product;
 }
 
-interface ProductPageParams extends ParsedUrlQuery{
+interface ProductPageParams extends ParsedUrlQuery {
     id: string;
 }
 
-export const getStaticPaths: GetStaticPaths<ProductPageParams> =  async () => {
+export const getStaticPaths: GetStaticPaths<ProductPageParams> = async () => {
     const products = await getProducts();
     const paths = products.map(product => ({
         params: {id: product.id.toString()}
@@ -27,13 +27,13 @@ export const getStaticPaths: GetStaticPaths<ProductPageParams> =  async () => {
 export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams> = async ({params}) => {
     const product = await getProduct(params.id);
     return {
-        props: {
-            product
-        }
+        props: {product},
+        revalidate: 5 * 60, // seconds
     }
 }
 
 const ProductPage: React.FC<{ product: Product }> = ({product}) => {
+    console.log('[ProductPage] render', product);
     return (
         <>
             <Head>
