@@ -2,9 +2,18 @@ import {getProduct, getProducts, Product} from '../../lib/products';
 import React from 'react';
 import Head from 'next/head';
 import Title from '../../components/Title';
+import {ParsedUrlQuery} from 'querystring';
+import {GetStaticPaths, GetStaticProps} from 'next';
 
+interface ProductPageProps {
+    product: Product;
+}
 
-export async function getStaticPaths() {
+interface ProductPageParams extends ParsedUrlQuery{
+    id: string;
+}
+
+export const getStaticPaths: GetStaticPaths<ProductPageParams> =  async () => {
     const products = await getProducts();
     const paths = products.map(product => ({
         params: {id: product.id.toString()}
@@ -15,9 +24,8 @@ export async function getStaticPaths() {
     }
 }
 
-export async function getStaticProps({params}) {
+export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams> = async ({params}) => {
     const product = await getProduct(params.id);
-
     return {
         props: {
             product
