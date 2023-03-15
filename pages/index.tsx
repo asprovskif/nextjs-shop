@@ -13,9 +13,8 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
     console.log('[getStaticProps] render');
     const products = await getProducts();
     return {
-        props: {
-            products
-        }
+        props: {products},
+        revalidate: parseInt(process.env.REVALIDATE_SECONDS),
     }
 }
 

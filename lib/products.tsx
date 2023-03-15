@@ -8,7 +8,7 @@ export interface Product {
     createdAt?: string;
 }
 
-const CMS_URL = 'http://localhost:1337';
+const CMS_URL = process.env.CMS_URL;
 
 function stripProduct(product: Product): Product {
     return {
