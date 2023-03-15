@@ -20,15 +20,20 @@ export const getStaticPaths: GetStaticPaths<ProductPageParams> = async () => {
     }));
     return {
         paths,
-        fallback: false
+        fallback: 'blocking',
     }
 }
 
 export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams> = async ({params}) => {
-    const product = await getProduct(params.id);
-    return {
-        props: {product},
+    try {
+        const product = await getProduct(params.id);
+        return {
+            props: {product},
+        }
+    } catch (err) {
+        return {notFound: true}
     }
+
 }
 
 const ProductPage: React.FC<{ product: Product }> = ({product}) => {
