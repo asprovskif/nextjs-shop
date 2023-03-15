@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Title from '../../components/Title';
 import {ParsedUrlQuery} from 'querystring';
 import {GetStaticPaths, GetStaticProps} from 'next';
+import {ApiError} from '../../lib/api';
 
 interface ProductPageProps {
     product: Product;
@@ -31,9 +32,11 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
             props: {product},
         }
     } catch (err) {
-        return {notFound: true}
+        if (err instanceof ApiError && err.status === 404) {
+            return {notFound: true};
+        }
+        throw err;
     }
-
 }
 
 const ProductPage: React.FC<{ product: Product }> = ({product}) => {
