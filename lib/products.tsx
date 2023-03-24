@@ -4,17 +4,21 @@ export interface Product {
     id: number;
     title: string;
     description: string;
-    price?: number;
+    price?: string;
     createdAt?: string;
+    pictureUrl: string;
 }
 
-const CMS_URL = 'http://localhost:1337';
+const CMS_URL = process.env.CMS_URL;
 
-function stripProduct(product: Product): Product {
+function stripProduct(product: any): Product {
+
     return {
         id: product.id,
         title: product.title,
         description: product.description,
+        price: '$' + product.price.toFixed(2),
+        pictureUrl: CMS_URL + product.picture.url,
     }
 }
 
