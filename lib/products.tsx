@@ -4,17 +4,18 @@ export interface Product {
     id: number;
     title: string;
     description: string;
-    price?: number;
+    price?: string;
     createdAt?: string;
 }
 
 const CMS_URL = process.env.CMS_URL;
 
-function stripProduct(product: Product): Product {
+function stripProduct(product: any): Product {
     return {
         id: product.id,
         title: product.title,
         description: product.description,
+        price: '$' + product.price.toFixed(2),
     }
 }
 

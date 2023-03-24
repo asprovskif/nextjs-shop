@@ -1,4 +1,4 @@
-import {PropsWithChildren} from 'react';
+import React, {PropsWithChildren} from 'react';
 
 const Title: React.FC<PropsWithChildren> = ({children}) => {
     return (
@@ -6,6 +6,6 @@ const Title: React.FC<PropsWithChildren> = ({children}) => {
             {children}
         </h1>
     )
-}
+};
 
 export default Title;
