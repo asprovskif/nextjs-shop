@@ -3,14 +3,21 @@ import Page from '../components/Page';
 import Input from '../components/Input';
 import Field from '../components/Field';
 import Button from '../components/Button';
+import {fetchJson} from '../lib/api';
 
 const SignIn: React.FC<any> = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('should submit', {email, password})
+        const response = await fetchJson('http://localhost:1337/auth/local', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({identifier: email, password}),
+        })
+
+        console.log('response', response);
     }
 
     return (
