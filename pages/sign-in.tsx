@@ -4,8 +4,10 @@ import Input from '../components/Input';
 import Field from '../components/Field';
 import Button from '../components/Button';
 import {fetchJson} from '../lib/api';
+import {useRouter} from 'next/router';
 
 const SignIn: React.FC<any> = () => {
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [status, setStatus] = useState({loading: false, error: false});
@@ -14,13 +16,14 @@ const SignIn: React.FC<any> = () => {
         event.preventDefault();
         setStatus({loading: true, error: false});
         try {
-            const response = await fetchJson('http://localhost:1337/auth/local', {
+            const response = await fetchJson('/api/login', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({identifier: email, password}),
+                body: JSON.stringify({email, password}),
             })
             setStatus({loading: false, error: false});
             console.log('response', response);
+            await router.push('/')
         } catch (err) {
             setStatus({loading: false, error: true});
         }
