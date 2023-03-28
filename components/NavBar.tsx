@@ -1,24 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Link from 'next/link';
-import {User} from '../lib/user';
 import {fetchJson} from '../lib/api';
+import {useUser} from '../hooks/user';
 
 const NavBar: React.FC = () => {
-    const [user, setUser] = useState<User>();
-    useEffect(() => {
-        (async () => {
-            try {
-                const user = await fetchJson('/api/user');
-                setUser(user);
-            } catch (e) {
-                // Not signed in
-            }
-        })();
-    }, []);
+    const user = useUser();
 
     const handleSignOut = async () => {
         await fetchJson('api/logout');
-        setUser(undefined);
+        // setUser(undefined);
     }
 
     return (
