@@ -1,9 +1,10 @@
 import {NextApiHandler} from 'next';
 import {fetchJson} from '../../lib/api';
 import cookie from 'cookie';
+import {User} from '../../lib/user';
 const {CMS_URL} = process.env;
 
-const handleLogin: NextApiHandler = async (req, res) => {
+const handleLogin: NextApiHandler<User> = async (req, res) => {
     if (req.method !== 'POST') {
         res.status(405).end();
         return;
