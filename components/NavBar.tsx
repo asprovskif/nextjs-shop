@@ -11,10 +11,15 @@ const NavBar: React.FC = () => {
                 const user = await fetchJson('/api/user');
                 setUser(user);
             } catch (e) {
-                console.log('User not logged in');
+                // Not signed in
             }
         })();
     }, []);
+
+    const handleSignOut = async () => {
+        await fetchJson('api/logout');
+        setUser(undefined);
+    }
 
     return (
         <nav className="px-2 py-1 text-sm">
@@ -28,9 +33,9 @@ const NavBar: React.FC = () => {
                 {user ? (
                     <>
                         <li>{user.name}</li>
-                    <li>
-                        <button>Sign Out</button>
-                    </li>
+                        <li>
+                            <button onClick={handleSignOut}>Sign Out</button>
+                        </li>
                     </>
                 ) : (
                     <li>
