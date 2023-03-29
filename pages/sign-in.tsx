@@ -6,28 +6,19 @@ import Button from '../components/Button';
 import {fetchJson} from '../lib/api';
 import {useRouter} from 'next/router';
 import {useMutation, useQueryClient} from 'react-query';
+import {User} from '../lib/user';
+import {useSignIn} from '../hooks/user';
 
 const SignIn: React.FC<any> = () => {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const queryClient = useQueryClient();
-    const mutation = useMutation(async () => fetchJson('/api/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email, password}),
-    }));
+    const {signInLoading, signInError, signIn} = useSignIn();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const user = await mutation.mutateAsync();
-            queryClient.setQueryData('user', user);
-            console.log('signed in', user);
-            await router.push('/');
-        } catch (err) {
-        // mutation.isError will be true
-        }
+        const valid = await signIn(email, password);
+        if (valid) await router.push('/');
     }
 
     return (
@@ -43,12 +34,12 @@ const SignIn: React.FC<any> = () => {
                            onChange={(event) => setPassword(event.target.value)}
                     />
                 </Field>
-                {mutation.isError && (
+                {signInError && (
                     <p className='text-red-700'>
                         Invalid credentials
                     </p>
                 )}
-                {mutation.isLoading ? (
+                {signInLoading ? (
                     <p>Loading...</p>
                 ) : (
                     <Button type="submit">
