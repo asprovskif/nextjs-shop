@@ -17,15 +17,15 @@ interface UseSignInResult {
 
 export function useSignIn(): UseSignInResult {
     const queryClient = useQueryClient();
-    const mutation = useMutation<User, Error, SignInVariables>(({ email, password }) => fetchJson('/api/login', {
+    const mutation = useMutation<User, Error, SignInVariables>(({email, password}) => fetchJson('/api/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email, password}),
     }));
     return {
         signIn: async (email: string, password: string) => {
             try {
-                const user = await mutation.mutateAsync({ email, password });
+                const user = await mutation.mutateAsync({email, password});
                 queryClient.setQueryData(USER_QUERY_KEY, user);
                 return true;
             } catch (err) {

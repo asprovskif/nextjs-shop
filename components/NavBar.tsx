@@ -5,7 +5,6 @@ import {useUser, useSignOut} from '../hooks/user';
 
 const NavBar: React.FC = () => {
     const user = useUser();
-
     const signOut = useSignOut();
 
     return (
@@ -19,6 +18,11 @@ const NavBar: React.FC = () => {
                 <li role="separator" className="flex-1"/>
                 {user ? (
                     <>
+                        <li>
+                            <Link href='/cart'>
+                                Cart
+                            </Link>
+                        </li>
                         <li>{user.name}</li>
                         <li>
                             <button onClick={signOut}>Sign Out</button>

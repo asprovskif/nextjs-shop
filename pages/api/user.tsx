@@ -1,8 +1,8 @@
 import {NextApiHandler} from 'next';
 import {fetchJson} from '../../lib/api';
 import {User} from '../../lib/user';
+import {CMS_URL} from '../../lib/lib.const';
 
-const {CMS_URL} = process.env;
 
 const handleUser: NextApiHandler<User> = async (req, res) => {
     const {jwt} = req.cookies;
