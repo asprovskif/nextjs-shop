@@ -1,15 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import {fetchJson} from '../lib/api';
-import {useUser} from '../hooks/user';
+import {useUser, useSignOut} from '../hooks/user';
 
 const NavBar: React.FC = () => {
     const user = useUser();
 
-    const handleSignOut = async () => {
-        await fetchJson('api/logout');
-        // setUser(undefined);
-    }
+    const signOut = useSignOut();
 
     return (
         <nav className="px-2 py-1 text-sm">
@@ -24,7 +21,7 @@ const NavBar: React.FC = () => {
                     <>
                         <li>{user.name}</li>
                         <li>
-                            <button onClick={handleSignOut}>Sign Out</button>
+                            <button onClick={signOut}>Sign Out</button>
                         </li>
                     </>
                 ) : (
