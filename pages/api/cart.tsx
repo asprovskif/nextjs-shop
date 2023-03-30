@@ -3,7 +3,7 @@ import {fetchJson} from '../../lib/api';
 import {CMS_URL} from '../../lib/lib.const';
 import {CartItem} from '../../lib/cart';
 
-function stripCart(cartItem: any): CartItem {
+function stripCartItem(cartItem: any): CartItem {
     return {
         id: cartItem.id,
         product: {
@@ -23,11 +23,11 @@ const handleCart: NextApiHandler<CartItem> = async (req, res) => {
     }
 
     try {
-        const cartItems = await fetchJson(`${CMS_URL}/cart`, {
+        const cartItems = await fetchJson(`${CMS_URL}/cart-items`, {
             headers: {'Authorization': `Bearer ${jwt}`},
         })
 
-        return res.status(200).json(cartItems.map(stripCart));
+        return res.status(200).json(cartItems.map(stripCartItem));
     } catch (err) {
         res.status(401).end();
     }
