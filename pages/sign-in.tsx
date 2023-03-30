@@ -5,28 +5,20 @@ import Field from '../components/Field';
 import Button from '../components/Button';
 import {fetchJson} from '../lib/api';
 import {useRouter} from 'next/router';
+import {useMutation, useQueryClient} from 'react-query';
+import {User} from '../lib/user';
+import {useSignIn} from '../hooks/user';
 
 const SignIn: React.FC<any> = () => {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [status, setStatus] = useState({loading: false, error: false});
+    const {signInLoading, signInError, signIn} = useSignIn();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setStatus({loading: true, error: false});
-        try {
-            const response = await fetchJson('/api/login', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({email, password}),
-            })
-            setStatus({loading: false, error: false});
-            console.log('response', response);
-            await router.push('/')
-        } catch (err) {
-            setStatus({loading: false, error: true});
-        }
+        const valid = await signIn(email, password);
+        if (valid) await router.push('/');
     }
 
     return (
@@ -42,12 +34,12 @@ const SignIn: React.FC<any> = () => {
                            onChange={(event) => setPassword(event.target.value)}
                     />
                 </Field>
-                {status.error && (
+                {signInError && (
                     <p className='text-red-700'>
                         Invalid credentials
                     </p>
                 )}
-                {status.loading ? (
+                {signInLoading ? (
                     <p>Loading...</p>
                 ) : (
                     <Button type="submit">

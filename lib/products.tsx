@@ -1,4 +1,5 @@
 import {fetchJson} from './api';
+import {CMS_URL} from './lib.const';
 
 export interface Product {
     id: number;
@@ -8,8 +9,6 @@ export interface Product {
     createdAt?: string;
     pictureUrl: string;
 }
-
-const CMS_URL = process.env.CMS_URL;
 
 function stripProduct(product: any): Product {
 

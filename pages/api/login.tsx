@@ -2,7 +2,7 @@ import {NextApiHandler} from 'next';
 import {fetchJson} from '../../lib/api';
 import cookie from 'cookie';
 import {User} from '../../lib/user';
-const {CMS_URL} = process.env;
+import { CMS_URL } from '../../lib/lib.const';
 
 const handleLogin: NextApiHandler<User> = async (req, res) => {
     if (req.method !== 'POST') {

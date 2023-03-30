@@ -1,20 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Link from 'next/link';
-import {User} from '../lib/user';
 import {fetchJson} from '../lib/api';
+import {useUser, useSignOut} from '../hooks/user';
 
 const NavBar: React.FC = () => {
-    const [user, setUser] = useState<User>();
-    useEffect(() => {
-        (async () => {
-            try {
-                const user = await fetchJson('/api/user');
-                setUser(user);
-            } catch (e) {
-                console.log('User not logged in');
-            }
-        })();
-    }, []);
+    const user = useUser();
+    const signOut = useSignOut();
 
     return (
         <nav className="px-2 py-1 text-sm">
@@ -27,10 +18,15 @@ const NavBar: React.FC = () => {
                 <li role="separator" className="flex-1"/>
                 {user ? (
                     <>
+                        <li>
+                            <Link href='/cart'>
+                                Cart
+                            </Link>
+                        </li>
                         <li>{user.name}</li>
-                    <li>
-                        <button>Sign Out</button>
-                    </li>
+                        <li>
+                            <button onClick={signOut}>Sign Out</button>
+                        </li>
                     </>
                 ) : (
                     <li>
